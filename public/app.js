@@ -17,9 +17,6 @@ async function applySiteConfig() {
     const config = await response.json();
     const prices = config.prices || {};
     const priceText = (coin, price) => `1 ${coin} = ${price} ₽`;
-    for (const [selector, value] of Object.entries(config.texts || {})) {
-      try { document.querySelectorAll(selector).forEach(el => { el.textContent = value; }); } catch (_) {}
-    }
     const rateMap = [
       ['#page-coins [data-coin="USDT"] .coin-rate', priceText('USDT', prices.sellUsdt ?? 73)],
       ['#page-coins [data-coin="GRAM"] .coin-rate', priceText('GRAM', prices.sellGram ?? 90)],

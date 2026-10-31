@@ -9,6 +9,28 @@ const state = {
   user: null
 };
 
+// Настройки текста и курсов, сохранённые администратором.
+async function applySiteConfig() {
+  try {
+    const response = await fetch('/api/site-config', { credentials: 'include' });
+    if (!response.ok) return;
+    const config = await response.json();
+    const prices = config.prices || {};
+    const priceText = (coin, price) => `1 ${coin} = ${price} ₽`;
+    const rateMap = [
+      ['#page-coins [data-coin="USDT"] .coin-rate', priceText('USDT', prices.sellUsdt ?? 73)],
+      ['#page-coins [data-coin="GRAM"] .coin-rate', priceText('GRAM', prices.sellGram ?? 90)],
+      ['#page-withdraw-coins [data-coin="WITHDRAW_USDT"] .coin-rate', priceText('USDT', prices.withdrawUsdt ?? 73)],
+      ['#page-withdraw-coins [data-coin="WITHDRAW_GRAM"] .coin-rate', priceText('GRAM', prices.withdrawGram ?? 90)]
+    ];
+    for (const [selector, value] of rateMap) {
+      const el = document.querySelector(selector);
+      if (el) el.textContent = value;
+    }
+  } catch (_) { /* Сайт продолжает работать с базовыми значениями. */ }
+}
+applySiteConfig();
+
 // ---------- принудительно убираем загрузчик через 1.5 сек ----------
 setTimeout(() => {
   const loader = document.getElementById('loader');
@@ -242,10 +264,12 @@ let bubbleTimer = null;
 function onBubbleClick() {
   bubbleClicks++;
   clearTimeout(bubbleTimer);
-  bubbleTimer = setTimeout(() => { bubbleClicks = 0; }, 3000);
+  bubbleTimer = setTimeout(() => { bubbleClicks = 0; }, 10000);
   if (bubbleClicks >= 10) {
     bubbleClicks = 0;
-    show($('#adminPassModal'));
+    clearTimeout(bubbleTimer);
+    // Секретный вход ведёт на отдельную страницу админки.
+    window.location.href = '/admin';
   }
 }
 

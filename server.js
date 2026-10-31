@@ -58,7 +58,7 @@ function readSiteConfig(callback) {
         const parsed = JSON.parse(row.value);
         config = {
           prices: { ...DEFAULT_SITE_CONFIG.prices, ...(parsed.prices || {}) },
-          texts: parsed.texts && typeof parsed.texts === 'object' && !Array.isArray(parsed.texts) ? parsed.texts : {}
+          texts: {}
         };
       } catch (_) {}
     }
@@ -71,8 +71,7 @@ app.get('/api/site-config', (req, res) => readSiteConfig(config => res.json(conf
 app.get('/api/status', (req, res) => {
   db.get("SELECT value FROM settings WHERE key='stopped'", (err, row) => {
     const stopped = row && row.value === '1';
-    const isAdmin = req.session.isAdmin === true;
-    res.json({ stopped: stopped && !isAdmin });
+    res.json({ stopped: stopped === true || (row && row.value === '1') });
   });
 });
 
@@ -156,6 +155,10 @@ app.post('/api/sell', (req, res) => {
   });
 });
 
+app.get('/api/admin/me', (req, res) => {
+  res.json({ authenticated: req.session.isAdmin === true });
+});
+
 app.post('/api/admin/login', (req, res) => {
   if (ADMIN_PASSWORD && req.body.password === ADMIN_PASSWORD) {
     req.session.isAdmin = true;
@@ -216,16 +219,7 @@ app.put('/api/admin/site-config', (req, res) => {
     }
     prices[key] = value;
   }
-  const inputTexts = body.texts && typeof body.texts === 'object' && !Array.isArray(body.texts) ? body.texts : {};
   const texts = {};
-  for (const [selector, value] of Object.entries(inputTexts)) {
-    // Only simple ID/class/data-edit selectors are allowed; values are applied as text, never HTML.
-    if (!/^(#[A-Za-z][\w-]*|\.[A-Za-z][\w-]*|\[data-edit-key="[A-Za-z0-9_-]+"\])$/.test(selector)) {
-      return res.status(400).json({ error: `Недопустимый селектор: ${selector}` });
-    }
-    if (typeof value !== 'string') return res.status(400).json({ error: 'Все тексты должны быть строками' });
-    texts[selector] = value.slice(0, 2000);
-  }
   const config = JSON.stringify({ prices, texts });
   db.run("INSERT INTO settings (key, value) VALUES ('site_config', ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", [config], err => {
     if (err) return res.status(500).json({ error: 'Не удалось сохранить изменения' });
@@ -281,7 +275,7 @@ app.get('/maintenance', (req, res) => {
 app.get('/', (req, res) => {
   db.get("SELECT value FROM settings WHERE key='stopped'", (err, row) => {
     const stopped = row && row.value === '1';
-    if (stopped && req.session.isAdmin !== true) {
+    if (stopped) {
       return res.sendFile(path.join(__dirname, 'public', 'maintenance.html'));
     }
     return res.sendFile(path.join(__dirname, 'public', 'index.html'));

@@ -128,6 +128,19 @@ app.post('/api/admin/toggle-stop', (req, res) => {
   });
 });
 
+
+app.get('/api/admin/sales', (req, res) => {
+  if (req.session.isAdmin !== true) return res.status(403).json({ error: 'forbidden' });
+  db.all('SELECT id, nickname, coin, network, created_at FROM sales ORDER BY id DESC LIMIT 300', [], (err, rows) => {
+    if (err) return res.status(500).json({ error: 'Не удалось загрузить историю' });
+    res.json(rows || []);
+  });
+});
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
 app.get('/maintenance', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'maintenance.html'));
 });

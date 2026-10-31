@@ -29,6 +29,23 @@ db.serialize(() => {
     value TEXT
   )`);
 
+  db.run(`CREATE TABLE IF NOT EXISTS login_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT,
+    ip_address TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    success INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )`);
+
+  db.run(`CREATE TABLE IF NOT EXISTS ip_bans (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ip_address TEXT NOT NULL UNIQUE,
+    reason TEXT DEFAULT '',
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )`);
+
+
   db.get("SELECT value FROM settings WHERE key = 'stopped'", (err, row) => {
     if (!row) {
       db.run("INSERT INTO settings (key, value) VALUES ('stopped', '0')");

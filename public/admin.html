@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#05080a"><title>Админ  Панель</title>
+<meta name="theme-color" content="#05080a"><title>BLUP — АДМИНИСТРАТОР</title>
 <link rel="stylesheet" href="/style.css">
 <style>
 .admin-shell{width:min(1100px,calc(100% - 32px));margin:44px auto;padding-bottom:60px}
@@ -19,11 +19,11 @@
 @media(max-width:700px){.admin-grid{grid-template-columns:1fr}.admin-card.wide{grid-column:auto}.admin-shell{margin-top:24px}}
 </style>
 </head><body>
-<div id="loginView" class="admin-login"><div class="admin-card"><div class="admin-brand">Админ Панель</div><p class="admin-sub">ЗАЩИЩЁННАЯ ПАНЕЛЬ УПРАВЛЕНИЯ</p><h2 style="margin-top:28px">ВХОД АДМИНИСТРАТОРА</h2><input id="adminPassword" class="admin-input" type="password" placeholder="ПАРОЛЬ АДМИНИСТРАТОРА" autocomplete="current-password"><button id="loginButton" class="admin-btn" style="width:100%;margin-top:14px">ВОЙТИ</button><p id="loginError" class="admin-error"></p><p style="margin-top:18px"><a href="/">ВЕРНУТЬСЯ НА САЙТ</a></p></div></div>
-<div id="dashboard" class="admin-shell hidden"><div class="admin-top"><div><div class="admin-brand">Панель для Админа</div><p class="admin-sub">ЦЕНТР УПРАВЛЕНИЯ СЕРВИСОМ</p></div><button id="refreshButton" class="admin-btn">ОБНОВИТЬ ДАННЫЕ</button></div>
+<div id="loginView" class="admin-login"><div class="admin-card"><div class="admin-brand">BLUP / ADMIN</div><p class="admin-sub">ЗАЩИЩЁННАЯ ПАНЕЛЬ УПРАВЛЕНИЯ</p><h2 style="margin-top:28px">ВХОД АДМИНИСТРАТОРА</h2><input id="adminPassword" class="admin-input" type="password" placeholder="ПАРОЛЬ АДМИНИСТРАТОРА" autocomplete="current-password"><button id="loginButton" class="admin-btn" style="width:100%;margin-top:14px">ВОЙТИ</button><p id="loginError" class="admin-error"></p><p style="margin-top:18px"><a href="/">ВЕРНУТЬСЯ НА САЙТ</a></p></div></div>
+<div id="dashboard" class="admin-shell hidden"><div class="admin-top"><div><div class="admin-brand">BLUP / ADMIN</div><p class="admin-sub">ЦЕНТР УПРАВЛЕНИЯ СЕРВИСОМ</p></div><button id="refreshButton" class="admin-btn">ОБНОВИТЬ ДАННЫЕ</button></div>
 <div class="admin-grid"><section class="admin-card"><h2>СОСТОЯНИЕ САЙТА</h2><p>Управление публичным режимом обслуживания.</p><div id="siteStatus" class="admin-status">ПРОВЕРКА СТАТУСА</div><div class="admin-actions"><button id="toggleMaintenance" class="admin-btn">...</button></div></section>
 <section class="admin-card"><h2>БЫСТРЫЕ ССЫЛКИ</h2><p>Переход к публичной странице.</p><div class="admin-actions"><a class="admin-btn" href="/">ОТКРЫТЬ САЙТ</a><button id="openChanges" class="admin-btn" type="button">ИЗМЕНЕНИЯ</button></div></section>
-<section class="admin-card wide"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2>ИСТОРИЯ ТРАНЗАКЦИЙ</h2><button id="clearSales" class="admin-btn" type="button">ОЧИСТИТЬ ИСТОРИЮ</button></div><p>Последние заявки: ID, пользователь, актив, сеть и время. Очистка удаляет записи без возможности восстановления.</p><div class="admin-table-wrap"><table><thead><tr><th>ID</th><th>ПОЛЬЗОВАТЕЛЬ</th><th>АКТИВ</th><th>СЕТЬ</th><th>ДАТА</th></tr></thead><tbody id="salesRows"><tr><td colspan="5">ЗАГРУЗКА...</td></tr></tbody></table></div></section>
+<section class="admin-card wide"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2>ИСТОРИЯ ТРАНЗАКЦИЙ</h2><button id="clearSales" class="admin-btn" type="button">ОЧИСТИТЬ ИСТОРИЮ</button></div><p>Заявки, отправленные пользователями кнопкой «Я отправил». Отметьте результат: «Продано» попадёт в публичную историю, «Не продано» останется вне неё. Очистка удаляет записи без возможности восстановления.</p><div class="admin-table-wrap"><table><thead><tr><th>ID</th><th>ПОЛЬЗОВАТЕЛЬ</th><th>АКТИВ</th><th>СЕТЬ</th><th>ДАТА</th><th>СТАТУС / ДЕЙСТВИЕ</th></tr></thead><tbody id="salesRows"><tr><td colspan="5">ЗАГРУЗКА...</td></tr></tbody></table></div></section>
 <section class="admin-card wide"><h2>ИСТОРИЯ ВХОДОВ И РЕГИСТРАЦИЙ</h2><p>Журнал успешных и неуспешных попыток входа и регистрации. IP используется для защиты аккаунтов; записи ограничены последними 300 событиями.</p><div class="admin-table-wrap"><table><thead><tr><th>ДАТА</th><th>НИК</th><th>СОБЫТИЕ</th><th>РЕЗУЛЬТАТ</th><th>IP-АДРЕС</th></tr></thead><tbody id="loginRows"><tr><td colspan="5">ЗАГРУЗКА...</td></tr></tbody></table></div></section>
 <section class="admin-card wide"><h2>БЛОКИРОВКА ВХОДА ПО IP</h2><p>Блокирует регистрацию и вход с указанного IP-адреса. Используйте только для защиты собственного сервиса.</p><form id="banForm" class="admin-actions"><input id="banIp" class="admin-input" style="max-width:280px;margin:0" placeholder="IP-АДРЕС" required><input id="banReason" class="admin-input" style="max-width:280px;margin:0" placeholder="ПРИЧИНА (НЕОБЯЗАТЕЛЬНО)"><button class="admin-btn" type="submit">ЗАБЛОКИРОВАТЬ IP</button></form><p id="banMessage"></p><div class="admin-table-wrap"><table><thead><tr><th>IP-АДРЕС</th><th>ПРИЧИНА</th><th>ДАТА</th><th>ДЕЙСТВИЕ</th></tr></thead><tbody id="banRows"><tr><td colspan="4">ЗАГРУЗКА...</td></tr></tbody></table></div></section>
 <section id="changesPanel" class="admin-card wide hidden"><h2>ИЗМЕНЕНИЯ САЙТА</h2><p>Изменяйте курсы криптовалют. Настройки сохраняются на сервере и применяются на публичном сайте.</p>
@@ -34,6 +34,7 @@
   <div><label>Курс вывода GRAM (₽)</label><input id="priceWithdrawGram" class="admin-input" type="number" min="0" step="0.01"></div>
 </div>
 <div class="admin-actions"><button id="saveChanges" class="admin-btn" type="button">СОХРАНИТЬ ИЗМЕНЕНИЯ</button><button id="closeChanges" class="admin-btn" type="button">ЗАКРЫТЬ</button></div><p id="changesMessage"></p>
+<p style="margin-top:10px">Поддерживаются селекторы вида <code>#id</code>, <code>.class</code> и <code>[data-edit-key="name"]</code>. Текст применяется безопасно как текст, не как HTML.</p>
 </section></div>
 </div>
 <script>
@@ -42,7 +43,23 @@ async function api(url,options={}){const r=await fetch(url,{credentials:'include
 async function showDashboard(){isAdmin=true;$('#loginView').classList.add('hidden');$('#dashboard').classList.remove('hidden');await refresh()}
 async function login(){ $('#loginError').textContent='';try{await api('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('#adminPassword').value})});await showDashboard()}catch(e){$('#loginError').textContent='НЕ УДАЛОСЬ ВОЙТИ. ПРОВЕРЬТЕ ПАРОЛЬ.'}}
 async function restoreAdminSession(){try{const d=await api('/api/admin/me');if(d.authenticated)await showDashboard()}catch(e){/* показываем форму входа */}}
-async function refresh(){if(!isAdmin)return;try{const d=await api('/api/admin/stopped');$('#siteStatus').textContent=d.stopped?'ТЕХНИЧЕСКИЕ РАБОТЫ ВКЛЮЧЕНЫ':'САЙТ РАБОТАЕТ';$('#toggleMaintenance').textContent=d.stopped?'ВЫКЛЮЧИТЬ ТЕХРАБОТЫ':'ВКЛЮЧИТЬ ТЕХРАБОТЫ';const rows=await api('/api/admin/sales');const body=$('#salesRows');body.replaceChildren();if(!rows.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=5;td.textContent='ЗАЯВОК ПОКА НЕТ';tr.append(td);body.append(tr)}else for(const item of rows){const tr=document.createElement('tr');[item.id,item.nickname||'ГОСТЬ',item.coin||'—',item.network||'—',item.created_at?new Date(item.created_at+'Z').toLocaleString('ru-RU'):'—'].forEach(v=>{const td=document.createElement('td');td.textContent=String(v);tr.append(td)});body.append(tr)}await loadSecurityTables()}catch(e){$('#siteStatus').textContent='НЕ УДАЛОСЬ ЗАГРУЗИТЬ ДАННЫЕ';}}
+async function refresh(){if(!isAdmin)return;try{const d=await api('/api/admin/stopped');$('#siteStatus').textContent=d.stopped?'ТЕХНИЧЕСКИЕ РАБОТЫ ВКЛЮЧЕНЫ':'САЙТ РАБОТАЕТ';$('#toggleMaintenance').textContent=d.stopped?'ВЫКЛЮЧИТЬ ТЕХРАБОТЫ':'ВКЛЮЧИТЬ ТЕХРАБОТЫ';const rows=await api('/api/admin/sales');const body=$('#salesRows');body.replaceChildren();if(!rows.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=6;td.textContent='ЗАЯВОК ПОКА НЕТ';tr.append(td);body.append(tr)}else for(const item of rows){
+  const tr=document.createElement('tr');
+  [item.id,item.nickname||'ГОСТЬ',item.coin||'—',item.network||'—',item.created_at?new Date(item.created_at+'Z').toLocaleString('ru-RU'):'—'].forEach(v=>{const td=document.createElement('td');td.textContent=String(v);tr.append(td)});
+  const actionCell=document.createElement('td');
+  const statusLabel=document.createElement('div');
+  statusLabel.textContent=item.status==='sold'?'ПРОДАНО':item.status==='rejected'?'НЕ ПРОДАНО':'ОЖИДАЕТ РЕШЕНИЯ';
+  statusLabel.style.marginBottom='8px';
+  actionCell.append(statusLabel);
+  if(item.status!=='sold' && item.status!=='rejected'){
+    const soldBtn=document.createElement('button');soldBtn.className='admin-btn';soldBtn.textContent='ПРОДАНО';
+    soldBtn.addEventListener('click',async()=>{try{await api('/api/admin/sales/'+item.id+'/status',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'sold'})});await refresh()}catch(e){alert(e.message||'ОШИБКА')}});
+    const rejectedBtn=document.createElement('button');rejectedBtn.className='admin-btn';rejectedBtn.textContent='НЕ ПРОДАНО';rejectedBtn.style.marginLeft='6px';
+    rejectedBtn.addEventListener('click',async()=>{try{await api('/api/admin/sales/'+item.id+'/status',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'rejected'})});await refresh()}catch(e){alert(e.message||'ОШИБКА')}});
+    actionCell.append(soldBtn,rejectedBtn);
+  }
+  tr.append(actionCell);body.append(tr)
+}await loadSecurityTables()}catch(e){$('#siteStatus').textContent='НЕ УДАЛОСЬ ЗАГРУЗИТЬ ДАННЫЕ';}}
 function addCell(row, value){const td=document.createElement('td');td.textContent=String(value ?? '—');row.append(td);}
 function formatDate(value){return value ? new Date(value+'Z').toLocaleString('ru-RU') : '—';}
 async function loadSecurityTables(){

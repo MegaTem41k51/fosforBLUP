@@ -19,16 +19,17 @@
   <!-- Пузырь для админа прямо на экране блокировки -->
   <div class="bubble-logo" id="bubbleLogoStopped" style="position: absolute; top: 20px; left: 20px; z-index: 3000; width: 50px; height: 50px;"></div>
   
-  <h2>тех перерыв! скоро все станет на свои места.</h2>
+  <h2>Технические работы</h2>
+  <p class="maintenance-copy">Мы обновляем сайт. Пожалуйста, зайдите позже.</p>
 </div>
 <!-- ШАПКА -->
 <header id="header" class="hidden">
   <div class="logo-container">
     <div class="bubble-logo small" id="bubbleLogo2"></div>
-    <span class="site-name" id="siteName">BLUP</span>
+    <span class="site-name">BLUP</span>
   </div>
   <div class="header-right">
-    <button id="historyBtn">📜 История продаж</button>
+    <button id="historyBtn">История продаж</button>
     <span id="userInfo"></span>
     <button id="loginBtn">Войти</button>
     <button id="logoutBtn" class="hidden">Выйти</button>
@@ -39,23 +40,23 @@
   
   <!-- ГЛАВНАЯ -->
   <section id="page-home" class="page">
-    <h1>привет! продавай свою крипту и выводы с сайтов(криптой) тут❤️</h1>
-    <p class="sub">(только ру номера)</p>
-    <button class="big-btn" data-nav="coins">продать</button>
-    <button class="big-btn" style="margin-top: 15px; background: linear-gradient(135deg, #1f4fff 0%, #0a1a3f 100%);" data-nav="withdraw-coins">продать вывод с сайта</button>
+    <h1>КРИПТОВАЛЮТА. ПРОСТО. БЫСТРО. ПОНЯТНО.</h1>
+    <p class="sub">ПРОЗРАЧНЫЕ КУРСЫ. ПОНЯТНЫЙ ПРОЦЕСС. КОНТРОЛЬ НА КАЖДОМ ШАГЕ.</p>
+    <button class="big-btn" data-nav="coins">ПЕРЕЙТИ К ПРОДАЖЕ</button>
+    <button class="big-btn" style="margin-top: 15px; background: linear-gradient(135deg, #1f4fff 0%, #0a1a3f 100%);" data-nav="withdraw-coins">ЗАПРОСИТЬ ВЫВОД</button>
   </section>
 
   <!-- ВЫБОР КОИНА -->
   <section id="page-coins" class="page hidden">
-    <h2>что хочешь продать?</h2>
+    <h2>Выберите криптовалюту</h2>
     <div class="coin-list">
       <div class="coin-card" data-coin="USDT">
         <span class="coin-name">USDT</span>
-        <span class="coin-rate">1 USDT = <span data-rate="usdt">72</span> ₽</span>
+        <span class="coin-rate">1 USDT = 73 ₽</span>
       </div>
       <div class="coin-card" data-coin="GRAM">
         <span class="coin-name">GRAM</span>
-        <span class="coin-rate">1 GRAM = <span data-rate="gram">85</span> ₽</span>
+        <span class="coin-rate">1 GRAM = 90 ₽</span>
       </div>
     </div>
     <button class="back-btn" data-nav="home">← назад</button>
@@ -63,7 +64,7 @@
 
   <!-- USDT: ВЫБОР СЕТИ -->
   <section id="page-usdt-network" class="page hidden">
-    <h2>выберите сеть USDT</h2>
+    <h2>Выберите сеть USDT</h2>
     <div class="network-list">
       <button class="network-btn" data-network="BEP20">BEP20</button>
       <button class="network-btn" data-network="TRC20">TRC20</button>
@@ -83,7 +84,7 @@
     <input id="usdtBank" placeholder="банк, на который скинуть деньги">
     <p class="important">
       ВАЖНО! кидайте любую сумму до 200$ на указанный адрес, комиссия сети вся на вас,
-      курс: 1 USDT = <span data-rate="usdt">72</span> ₽. Заявка появится в истории только после подтверждения администратором. Перед отправкой проверьте адрес и сеть.
+      деньги придут по курсу 1 usdt = 72р. ожидание до 1 часа. после того как отправили крипту нажимайте на кнопку
     </p>
     <button class="big-btn" id="usdtSent">я отправил</button>
     <button class="back-btn" data-nav="usdt-network">← назад</button>
@@ -98,7 +99,7 @@
     <input id="gramBank" placeholder="банк, на который скинуть деньги">
     <p class="important">
       ВАЖНО! кидайте любую сумму до 200$ на указанный адрес, комиссия сети вся на вас,
-      курс: 1 GRAM = <span data-rate="gram">85</span> ₽. Заявка появится в истории только после подтверждения администратором. Перед отправкой проверьте адрес и сеть.
+      деньги придут по курсу 1 gram = 85р. ожидание до 1 часа. после того как отправили крипту нажимайте на кнопку
     </p>
     <button class="big-btn" id="gramSent">я отправил</button>
     <button class="back-btn" data-nav="coins">← назад</button>
@@ -106,15 +107,15 @@
   
   <!-- ВЫВОД С САЙТА: ВЫБОР КОИНА -->
   <section id="page-withdraw-coins" class="page hidden">
-    <h2>что хочешь продать?</h2>
+    <h2>Выберите криптовалюту</h2>
     <div class="coin-list">
       <div class="coin-card" data-coin="WITHDRAW_USDT">
         <span class="coin-name">USDT</span>
-        <span class="coin-rate">1 USDT = <span data-rate="usdt">72</span> ₽</span>
+        <span class="coin-rate">1 USDT = 73 ₽</span>
       </div>
       <div class="coin-card" data-coin="WITHDRAW_GRAM">
         <span class="coin-name">GRAM</span>
-        <span class="coin-rate">1 GRAM = <span data-rate="gram">85</span> ₽</span>
+        <span class="coin-rate">1 GRAM = 90 ₽</span>
       </div>
     </div>
     <button class="back-btn" data-nav="home">← назад</button>
@@ -122,7 +123,7 @@
 
   <!-- ВЫВОД С САЙТА: ВЫБОР СЕТИ USDT -->
   <section id="page-withdraw-usdt-network" class="page hidden">
-    <h2>выберите сеть USDT</h2>
+    <h2>Выберите сеть USDT</h2>
     <div class="network-list">
       <button class="network-btn" data-network="BEP20">BEP20</button>
       <button class="network-btn" data-network="TRC20">TRC20</button>
@@ -147,7 +148,7 @@
     
     <p class="important">
       ВАЖНО! кидайте любую сумму до 200$ на указанный адрес, комиссия сети вся на вас,
-      курс: 1 USDT = <span data-rate="usdt">72</span> ₽. Статус выплаты уточняйте после проверки заявки.
+      деньги придут по курсу 1 usdt = 72р. ожидание до 1 часа.
     </p>
     <button class="big-btn" id="withdrawUsdtSent">я отправил</button>
     <button class="back-btn" data-nav="withdraw-usdt-network">← назад</button>
@@ -166,7 +167,7 @@
     
     <p class="important">
       ВАЖНО! кидайте любую сумму до 200$ на указанный адрес, комиссия сети вся на вас,
-      курс: 1 GRAM = <span data-rate="gram">85</span> ₽. Статус выплаты уточняйте после проверки заявки.
+      деньги придут по курсу 1 gram = 85р. ожидание до 1 часа.
     </p>
     <button class="big-btn" id="withdrawGramSent">я отправил</button>
     <button class="back-btn" data-nav="withdraw-coins">← назад</button>
@@ -199,7 +200,7 @@
 <!-- МОДАЛКА "СПАСИБО" -->
 <div id="thanksModal" class="modal hidden">
   <div class="modal-content">
-    <h3>Заявка отправлена на проверку</h3><p>Она появится в публичной истории только после подтверждения администратором. Отправка криптовалюты не гарантирует выплату.</p>
+    <h3>Заявка отправлена. Срок обработки — до 1 часа.</h3>
     <button id="thanksClose" class="big-btn">Ок</button>
   </div>
 </div>
@@ -210,16 +211,7 @@
     <h3>Админ панель</h3>
     <p>Статус: <b id="adminStatus">работает</b></p>
     <button id="toggleStopBtn" class="big-btn">Прекратить работу</button>
-    <hr>
-    <h3>Курсы</h3>
-    <label>1 USDT = ₽ <input id="adminUsdtRate" type="number" min="0.01" step="0.01"></label>
-    <label>1 GRAM = ₽ <input id="adminGramRate" type="number" min="0.01" step="0.01"></label>
-    <button id="saveRatesBtn" class="big-btn">Сохранить курсы</button>
-    <p id="ratesMessage" class="error"></p>
-    <hr>
-    <h3>Заявки на продажу</h3>
-    <button id="refreshSalesBtn" class="big-btn">Обновить транзакции</button>
-    <div id="adminSalesList" class="history-list"></div>
+    <button id="openMaintenanceBtn" class="back-btn">Открыть страницу технических работ</button>
     <button id="adminClose" class="link-btn">Закрыть</button>
   </div>
 </div>
@@ -246,7 +238,7 @@
 </div>
 <!-- НАШ КАНАЛ -->
 <a href="https://t.me/blupmarket" target="_blank" class="channel-btn">
-  📢 Наш канал
+  Наш канал
 </a>
 <script src="/app.js"></script>
 </body>

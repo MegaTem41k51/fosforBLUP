@@ -21,7 +21,6 @@ db.serialize(() => {
     wallet TEXT,
     phone TEXT,
     bank TEXT,
-    status TEXT NOT NULL DEFAULT 'pending',
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
   )`);
 
@@ -29,18 +28,34 @@ db.serialize(() => {
     key TEXT PRIMARY KEY,
     value TEXT
   )`);
+  // Статус заявки: pending, sold или rejected.
+  db.run("ALTER TABLE sales ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'", err => {
+    // Игнорируем ошибку, если колонка уже существует.
+  });
 
-  // Безопасные миграции для уже существующей базы.
-  db.run("ALTER TABLE sales ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'", () => {});
+
+  db.run(`CREATE TABLE IF NOT EXISTS login_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT,
+    ip_address TEXT NOT NULL,
+    event_type TEXT NOT NULL,
+    success INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )`);
+
+  db.run(`CREATE TABLE IF NOT EXISTS ip_bans (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ip_address TEXT NOT NULL UNIQUE,
+    reason TEXT DEFAULT '',
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )`);
+
+
   db.get("SELECT value FROM settings WHERE key = 'stopped'", (err, row) => {
     if (!row) {
       db.run("INSERT INTO settings (key, value) VALUES ('stopped', '0')");
     }
   });
-  const defaults = { usdt_rate: '72', gram_rate: '85' };
-  for (const [key, value] of Object.entries(defaults)) {
-    db.run('INSERT OR IGNORE INTO settings (key, value) VALUES (?, ?)', [key, value]);
-  }
 });
 
 module.exports = db;

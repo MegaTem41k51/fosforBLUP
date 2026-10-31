@@ -27,6 +27,18 @@ async function applySiteConfig() {
       const el = document.querySelector(selector);
       if (el) el.textContent = value;
     }
+    const usdtNotice = document.querySelector('#page-usdt-pay .important');
+    if (usdtNotice) {
+      usdtNotice.textContent = `ВАЖНО! КИДАЙТЕ ЛЮБУЮ СУММУ ДО 200$ НА УКАЗАННЫЙ АДРЕС, КОМИССИЯ СЕТИ НА ВАС, ДЕНЬГИ ПРИДУТ ПО КУРСУ 1 USDT = ${prices.sellUsdt ?? 73} ₽. ОЖИДАНИЕ ДО 1 ЧАСА. ПОСЛЕ ОТПРАВКИ КРИПТЫ НАЖМИТЕ КНОПКУ.`;
+    }
+    const gramNotice = document.querySelector('#page-gram-pay .important');
+    if (gramNotice) {
+      gramNotice.textContent = `ВАЖНО! КИДАЙТЕ ЛЮБУЮ СУММУ ДО 200$ НА УКАЗАННЫЙ АДРЕС, КОМИССИЯ СЕТИ НА ВАС, ДЕНЬГИ ПРИДУТ ПО КУРСУ 1 GRAM = ${prices.sellGram ?? 90} ₽. ОЖИДАНИЕ ДО 1 ЧАСА. ПОСЛЕ ОТПРАВКИ КРИПТЫ НАЖМИТЕ КНОПКУ.`;
+    }
+    const withdrawGramNotice = document.querySelector('#page-withdraw-gram-pay .important');
+    if (withdrawGramNotice) {
+      withdrawGramNotice.textContent = `ВАЖНО! КИДАЙТЕ ЛЮБУЮ СУММУ ДО 200$ НА УКАЗАННЫЙ АДРЕС, КОМИССИЯ СЕТИ НА ВАС, ДЕНЬГИ ПРИДУТ ПО КУРСУ 1 GRAM = ${prices.withdrawGram ?? 90} ₽. ОЖИДАНИЕ ДО 1 ЧАСА.`;
+    }
   } catch (_) { /* Сайт продолжает работать с базовыми значениями. */ }
 }
 applySiteConfig();
@@ -57,6 +69,13 @@ function navigate(page) {
   if (target) show(target);
   if (page === 'history') loadHistory();
 }
+
+['#bubbleLogo', '#bubbleLogo2', '#bubbleLogoStopped', '.site-name'].forEach(selector => {
+  document.querySelectorAll(selector).forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => navigate('home'));
+  });
+});
 
 document.querySelectorAll('[data-nav]').forEach(btn => {
   btn.addEventListener('click', () => navigate(btn.dataset.nav));

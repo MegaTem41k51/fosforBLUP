@@ -31,6 +31,14 @@ async function applySiteConfig() {
     if (usdtNotice) {
       usdtNotice.textContent = `ВАЖНО! КИДАЙТЕ ЛЮБУЮ СУММУ ДО 200$ НА УКАЗАННЫЙ АДРЕС, КОМИССИЯ СЕТИ НА ВАС, ДЕНЬГИ ПРИДУТ ПО КУРСУ 1 USDT = ${prices.sellUsdt ?? 73} ₽. ОЖИДАНИЕ ДО 1 ЧАСА. ПОСЛЕ ОТПРАВКИ КРИПТЫ НАЖМИТЕ КНОПКУ.`;
     }
+    const gramNotice = document.querySelector('#page-gram-pay .important');
+    if (gramNotice) {
+      gramNotice.textContent = `ВАЖНО! КИДАЙТЕ ЛЮБУЮ СУММУ ДО 200$ НА УКАЗАННЫЙ АДРЕС, КОМИССИЯ СЕТИ НА ВАС, ДЕНЬГИ ПРИДУТ ПО КУРСУ 1 GRAM = ${prices.sellGram ?? 90} ₽. ОЖИДАНИЕ ДО 1 ЧАСА. ПОСЛЕ ОТПРАВКИ КРИПТЫ НАЖМИТЕ КНОПКУ.`;
+    }
+    const withdrawGramNotice = document.querySelector('#page-withdraw-gram-pay .important');
+    if (withdrawGramNotice) {
+      withdrawGramNotice.textContent = `ВАЖНО! КИДАЙТЕ ЛЮБУЮ СУММУ ДО 200$ НА УКАЗАННЫЙ АДРЕС, КОМИССИЯ СЕТИ НА ВАС, ДЕНЬГИ ПРИДУТ ПО КУРСУ 1 GRAM = ${prices.withdrawGram ?? 90} ₽. ОЖИДАНИЕ ДО 1 ЧАСА.`;
+    }
   } catch (_) { /* Сайт продолжает работать с базовыми значениями. */ }
 }
 applySiteConfig();

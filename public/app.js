@@ -9,27 +9,14 @@ const state = {
   user: null
 };
 
-// Настройки текста и курсов, сохранённые администратором.
-async function applySiteConfig() {
+async function loadRates() {
   try {
-    const response = await fetch('/api/site-config', { credentials: 'include' });
-    if (!response.ok) return;
-    const config = await response.json();
-    const prices = config.prices || {};
-    const priceText = (coin, price) => `1 ${coin} = ${price} ₽`;
-    const rateMap = [
-      ['#page-coins [data-coin="USDT"] .coin-rate', priceText('USDT', prices.sellUsdt ?? 73)],
-      ['#page-coins [data-coin="GRAM"] .coin-rate', priceText('GRAM', prices.sellGram ?? 90)],
-      ['#page-withdraw-coins [data-coin="WITHDRAW_USDT"] .coin-rate', priceText('USDT', prices.withdrawUsdt ?? 73)],
-      ['#page-withdraw-coins [data-coin="WITHDRAW_GRAM"] .coin-rate', priceText('GRAM', prices.withdrawGram ?? 90)]
-    ];
-    for (const [selector, value] of rateMap) {
-      const el = document.querySelector(selector);
-      if (el) el.textContent = value;
-    }
-  } catch (_) { /* Сайт продолжает работать с базовыми значениями. */ }
+    const r = await fetch('/api/rates');
+    const rates = await r.json();
+    document.querySelectorAll('[data-rate=\"usdt\"]').forEach(el => el.textContent = rates.usdt);
+    document.querySelectorAll('[data-rate=\"gram\"]').forEach(el => el.textContent = rates.gram);
+  } catch (e) { console.warn('Не удалось загрузить курсы', e); }
 }
-applySiteConfig();
 
 // ---------- принудительно убираем загрузчик через 1.5 сек ----------
 setTimeout(() => {
@@ -39,6 +26,7 @@ setTimeout(() => {
   show($('#main'));
   checkStatus();
   checkMe();
+  loadRates();
   navigate('home');
 }, 1500);
 
@@ -91,7 +79,7 @@ async function checkMe() {
 
 function renderUser() {
   if (state.user) {
-    $('#userInfo').textContent = state.user;
+    $('#userInfo').textContent = '👤 ' + state.user;
     hide($('#loginBtn'));
     show($('#logoutBtn'));
   } else {
@@ -264,18 +252,16 @@ let bubbleTimer = null;
 function onBubbleClick() {
   bubbleClicks++;
   clearTimeout(bubbleTimer);
-  bubbleTimer = setTimeout(() => { bubbleClicks = 0; }, 10000);
+  bubbleTimer = setTimeout(() => { bubbleClicks = 0; }, 3000);
   if (bubbleClicks >= 10) {
     bubbleClicks = 0;
-    clearTimeout(bubbleTimer);
-    // Секретный вход ведёт на отдельную страницу админки.
-    window.location.href = '/admin';
+    show($('#adminPassModal'));
   }
 }
 
-$('#bubbleLogo2').addEventListener('click', onBubbleClick);
-$('#bubbleLogo').addEventListener('click', onBubbleClick);
-$('#bubbleLogoStopped').addEventListener('click', onBubbleClick);
+[ $('#bubbleLogo2'), $('#bubbleLogo'), $('#bubbleLogoStopped') ].forEach(el => el.addEventListener('click', () => { navigate('home'); onBubbleClick(); }));
+$('#siteName').addEventListener('click', () => navigate('home'));
+$('#siteName').style.cursor = 'pointer';
 
 $('#adminPassClose').addEventListener('click', () => hide($('#adminPassModal')));
 $('#adminPassSubmit').addEventListener('click', async () => {
@@ -294,6 +280,8 @@ $('#adminPassSubmit').addEventListener('click', async () => {
   hide($('#adminPassModal'));
   show($('#adminPanel'));
   await refreshAdminStatus();
+  await loadAdminRates();
+  await loadAdminSales();
 });
 
 async function refreshAdminStatus() {
@@ -304,6 +292,58 @@ async function refreshAdminStatus() {
   $('#toggleStopBtn').textContent = d.stopped ? 'Возобновить работу' : 'Прекратить работу';
 }
 
+async function loadAdminRates() {
+  const r = await fetch('/api/rates', { credentials: 'include' });
+  if (!r.ok) return;
+  const rates = await r.json();
+  $('#adminUsdtRate').value = rates.usdt;
+  $('#adminGramRate').value = rates.gram;
+}
+
+$('#saveRatesBtn').addEventListener('click', async () => {
+  $('#ratesMessage').textContent = '';
+  const r = await fetch('/api/admin/rates', {
+    method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ usdt: $('#adminUsdtRate').value, gram: $('#adminGramRate').value })
+  });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) { $('#ratesMessage').textContent = d.error || 'Не удалось сохранить курсы'; return; }
+  $('#ratesMessage').textContent = 'Курсы сохранены';
+  await loadRates();
+});
+
+async function loadAdminSales() {
+  const list = $('#adminSalesList');
+  list.textContent = 'Загрузка…';
+  const r = await fetch('/api/admin/sales', { credentials: 'include' });
+  if (!r.ok) { list.textContent = 'Не удалось загрузить транзакции. Проверьте авторизацию администратора.'; return; }
+  const rows = await r.json();
+  if (!rows.length) { list.textContent = 'Заявок пока нет'; return; }
+  list.innerHTML = '';
+  rows.forEach(sale => {
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    const statusText = sale.status === 'approved' ? 'Продал — в истории' : sale.status === 'rejected' ? 'Не продал — скрыто' : 'Ожидает решения';
+    const details = document.createElement('div');
+    details.innerHTML = `<b>Заявка #${sale.id}: ${sale.nickname || 'гость'}</b><br>${sale.coin || ''}${sale.network ? ' (' + sale.network + ')' : ''}<br><small>${new Date(sale.created_at).toLocaleString('ru-RU')} · ${statusText}</small>`;
+    item.appendChild(details);
+    const actions = document.createElement('div');
+    actions.className = 'admin-sale-actions';
+    [['approved','Продал — оставить'],['rejected','Не продал — убрать'],['pending','На проверку']].forEach(([status,label]) => {
+      const btn = document.createElement('button'); btn.textContent = label; btn.className = 'back-btn';
+      btn.addEventListener('click', async () => {
+        const resp = await fetch(`/api/admin/sales/${sale.id}/status`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({status}) });
+        if (!resp.ok) { alert('Не удалось обновить статус заявки'); return; }
+        await loadAdminSales();
+      });
+      actions.appendChild(btn);
+    });
+    item.appendChild(actions);
+    list.appendChild(item);
+  });
+}
+$('#refreshSalesBtn').addEventListener('click', loadAdminSales);
+
 $('#toggleStopBtn').addEventListener('click', async () => {
   const r = await fetch('/api/admin/toggle-stop', { method: 'POST' });
   if (r.ok) {
@@ -311,7 +351,6 @@ $('#toggleStopBtn').addEventListener('click', async () => {
   }
 });
 $('#adminClose').addEventListener('click', () => hide($('#adminPanel')));
-$('#openMaintenanceBtn').addEventListener('click', () => window.open('/maintenance', '_blank', 'noopener')); 
 
 // ==========================================
 // ЛОГИКА ДЛЯ ВЫВОДА С САЙТОВ (КРИПТОЙ)

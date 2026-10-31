@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#05080a"><title>BLUP — АДМИНИСТРАТОР</title>
+<meta name="theme-color" content="#05080a"><title>Админ - Панель</title>
 <link rel="stylesheet" href="/style.css">
 <style>
 .admin-shell{width:min(1100px,calc(100% - 32px));margin:44px auto;padding-bottom:60px}
@@ -19,7 +19,7 @@
 @media(max-width:700px){.admin-grid{grid-template-columns:1fr}.admin-card.wide{grid-column:auto}.admin-shell{margin-top:24px}}
 </style>
 </head><body>
-<div id="loginView" class="admin-login"><div class="admin-card"><div class="admin-brand">BLUP / ADMIN</div><p class="admin-sub">ЗАЩИЩЁННАЯ ПАНЕЛЬ УПРАВЛЕНИЯ</p><h2 style="margin-top:28px">ВХОД АДМИНИСТРАТОРА</h2><input id="adminPassword" class="admin-input" type="password" placeholder="ПАРОЛЬ АДМИНИСТРАТОРА" autocomplete="current-password"><button id="loginButton" class="admin-btn" style="width:100%;margin-top:14px">ВОЙТИ</button><p id="loginError" class="admin-error"></p><p style="margin-top:18px"><a href="/">ВЕРНУТЬСЯ НА САЙТ</a></p></div></div>
+<div id="loginView" class="admin-login"><div class="admin-card"><div class="admin-brand">Админ Панель</div><p class="admin-sub">ЗАЩИЩЁННАЯ ПАНЕЛЬ УПРАВЛЕНИЯ</p><h2 style="margin-top:28px">ВХОД АДМИНИСТРАТОРА</h2><input id="adminPassword" class="admin-input" type="password" placeholder="ПАРОЛЬ АДМИНИСТРАТОРА" autocomplete="current-password"><button id="loginButton" class="admin-btn" style="width:100%;margin-top:14px">ВОЙТИ</button><p id="loginError" class="admin-error"></p><p style="margin-top:18px"><a href="/">ВЕРНУТЬСЯ НА САЙТ</a></p></div></div>
 <div id="dashboard" class="admin-shell hidden"><div class="admin-top"><div><div class="admin-brand">BLUP / ADMIN</div><p class="admin-sub">ЦЕНТР УПРАВЛЕНИЯ СЕРВИСОМ</p></div><button id="refreshButton" class="admin-btn">ОБНОВИТЬ ДАННЫЕ</button></div>
 <div class="admin-grid"><section class="admin-card"><h2>СОСТОЯНИЕ САЙТА</h2><p>Управление публичным режимом обслуживания.</p><div id="siteStatus" class="admin-status">ПРОВЕРКА СТАТУСА</div><div class="admin-actions"><button id="toggleMaintenance" class="admin-btn">...</button></div></section>
 <section class="admin-card"><h2>БЫСТРЫЕ ССЫЛКИ</h2><p>Переход к публичной странице.</p><div class="admin-actions"><a class="admin-btn" href="/">ОТКРЫТЬ САЙТ</a><button id="openChanges" class="admin-btn" type="button">ИЗМЕНЕНИЯ</button></div></section>

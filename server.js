@@ -19,7 +19,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', maxAge: 1000 * 60 * 60 * 24 * 7 }
 }));
-app.use(express.static(path.join(__dirname, 'public'), { index: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 function requestIp(req) {
   const raw = req.ip || req.socket.remoteAddress || 'unknown';

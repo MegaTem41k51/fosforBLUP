@@ -81,18 +81,7 @@ app.use('/api', (req, res, next) => {
   });
 });
 
-// During maintenance keep status/config and admin endpoints available; block public actions.
-app.use('/api', (req, res, next) => {
-  if (req.path === '/status' || req.path === '/config' || req.path.startsWith('/admin')) return next();
-  getSetting('stopped', '0', (err, stopped) => {
-    if (err) return res.status(500).json({ error: 'Не удалось проверить режим обслуживания' });
-    if (stopped === '1' && req.session.isAdmin !== true) {
-      return res.status(503).json({ error: 'Сайт временно закрыт на технические работы. Попробуйте позже.' });
-    }
-    next();
-  });
-});
-app.get('/api/status', (req, res) => getSetting('stopped', '0', (e, stopped) => res.json({ stopped: stopped === '1' && req.session.isAdmin !== true })));
+// Режим техработ отображается на клиенте; API авторизации и регистрации остаются доступными.\napp.get('/api/status', (req, res) => getSetting('stopped', '0', (e, stopped) => res.json({ stopped: stopped === '1' && req.session.isAdmin !== true })));
 app.get('/api/config', (req, res) => {
   db.all('SELECT key,value FROM settings WHERE key IN (\'usdt_rate\',\'gram_rate\',\'reserve_total\',\'reserve_available\',\'banks\')', [], (err, rows) => {
     if (err) return res.status(500).json({ error: 'Ошибка настроек' });

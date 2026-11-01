@@ -63,6 +63,8 @@
       <div class="hero-bottom-note"><span class="line"></span> НОВЫЙ СЕРВИС BLUP <span class="line"></span></div>
     </section>
 
+    <section class="reserve-strip section-wrap" id="reserveStrip"><div class="reserve-copy"><span class="reserve-kicker">BLUP / ДОСТУПНЫЙ РЕЗЕРВ</span><b>Доступно к выводу <strong id="reserveAvailable">—</strong> из <strong id="reserveTotal">—</strong> USD</b><small>Актуальный лимит отображается по настройкам сервиса.</small></div><div class="reserve-meter"><span id="reserveMeter"></span></div><div class="rate-pills"><span>USDT <b id="usdtRate">Курс не задан</b></span><span>GRAM <b id="gramRate">Курс не задан</b></span></div></section>
+
     <section class="intro-strip section-wrap">
       <div><span class="strip-kicker">BLUP — ЭТО</span><h2>Удобный способ<br>оформить криптооперацию</h2></div>
       <p>Мы создаём простой и понятный сервис, в котором важны ясные условия, удобная подача заявки и доступная информация на каждом этапе.</p>
@@ -133,7 +135,7 @@
   <footer class="footer section-wrap">
     <a class="brand" href="#home"><span class="brand-orb"></span><span>BLUP</span></a>
     <span class="footer-copy">© <span id="year"></span> BLUP. Информация о сервисе.</span>
-    <div class="footer-links"><a href="#faq">FAQ</a><a href="#contacts">Контакты</a><a href="#" data-placeholder="terms">Условия сервиса</a><a href="#" data-placeholder="privacy">Конфиденциальность</a></div>
+    <div class="footer-links"><a href="#faq">FAQ</a><a href="#contacts">Контакты</a><a href="#" data-placeholder="terms">Условия сервиса</a><a href="#" data-placeholder="privacy">Конфиденциальность</a><a href="/admin" class="admin-entry">Админ</a></div>
   </footer>
 
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
@@ -153,7 +155,7 @@
       <button class="modal-close" id="authClose" aria-label="Закрыть">×</button>
       <div class="modal-eyebrow">BLUP / АККАУНТ</div><h2 id="authTitle">Вход в аккаунт</h2><p class="modal-desc">Войди или создай аккаунт, чтобы пользоваться возможностями сервиса.</p>
       <div class="auth-tabs"><button class="selected" data-auth="login">Войти</button><button data-auth="register">Регистрация</button></div>
-      <form id="authForm"><label>Никнейм<input name="nickname" minlength="3" required placeholder="Твой никнейм" autocomplete="username"></label><label>Пароль<input name="password" type="password" minlength="4" required placeholder="Пароль" autocomplete="current-password"></label><p class="form-message" id="authMessage"></p><button class="btn btn-primary btn-submit" type="submit" id="authSubmit">Войти <span>↗</span></button></form>
+      <form id="authForm"><label>Никнейм<input name="nickname" minlength="3" required placeholder="Твой никнейм" autocomplete="username"></label><label>Пароль<input name="password" type="password" minlength="4" required placeholder="Пароль" autocomplete="current-password"></label><small class="auth-password-hint" id="passwordHint">Для нового аккаунта используйте пароль не короче 10 символов.</small><small class="auth-password-hint">Для безопасности фиксируются IP-адрес и время входа. Не используй чужие платёжные реквизиты и никому не сообщай коды подтверждения.</small><p class="form-message" id="authMessage"></p><button class="btn btn-primary btn-submit" type="submit" id="authSubmit">Войти <span>↗</span></button></form>
     </section>
   </div>
 

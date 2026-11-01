@@ -13,3 +13,15 @@
 /* BLUP reserve / operation form additions */
 .reserve-strip{display:grid;grid-template-columns:1.1fr .8fr 1fr;align-items:center;gap:24px;margin-top:22px;margin-bottom:20px;padding:18px 22px;border:1px solid #37316c;border-radius:17px;background:linear-gradient(110deg,#171638,#10162d 65%,#10243b);box-shadow:0 14px 42px #02051355}.reserve-copy{display:flex;flex-direction:column;gap:5px}.reserve-kicker{font-size:8px;letter-spacing:.18em;color:#9d8bff;font-weight:900}.reserve-copy>b{font-size:14px}.reserve-copy strong{color:#71d7ff}.reserve-copy small{font-size:9px;color:#8f8bab}.reserve-meter{height:8px;border-radius:99px;background:#252348;overflow:hidden}.reserve-meter span{display:block;width:0;height:100%;border-radius:99px;background:linear-gradient(90deg,#6848ff,#4fcfff);box-shadow:0 0 14px #5d7dff88;transition:width .35s}.rate-pills{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}.rate-pills span{padding:9px 11px;border:1px solid #383363;border-radius:10px;background:#0d1026;color:#9290b1;font-size:9px}.rate-pills b{color:#f3f0ff;margin-left:5px}.field-note{grid-column:1/-1;margin:0;color:#8f8bab;font-size:9px;line-height:1.7}.static-field{display:flex;flex-direction:column;gap:7px;color:#c7c3df;font-size:10px;font-weight:800}.static-field b{height:44px;display:flex;align-items:center;padding:0 12px;border-radius:10px;border:1px solid #3b3868;background:#0c1026;color:#75d7ff;font-size:12px}.auth-password-hint{display:block;margin:-5px 0 12px;color:#8986a7;font-size:9px;line-height:1.6}.admin-entry{opacity:.55}.admin-entry:hover{opacity:1}
 @media(max-width:760px){.reserve-strip{grid-template-columns:1fr;gap:13px;padding:16px}.rate-pills{justify-content:flex-start}.reserve-copy>b{font-size:12px}}
+
+
+/* Maintenance mode overlay */
+.maintenance-screen{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(5,7,20,.97);backdrop-filter:blur(18px)}
+.maintenance-screen.hidden{display:none}
+.maintenance-panel{width:min(100%,620px);padding:clamp(30px,6vw,64px);text-align:center;border:1px solid rgba(151,130,255,.25);border-radius:28px;background:linear-gradient(145deg,rgba(26,29,64,.96),rgba(12,14,35,.98));box-shadow:0 30px 100px rgba(0,0,0,.45)}
+.maintenance-symbol{width:66px;height:66px;margin:0 auto 24px;display:grid;place-items:center;border-radius:22px;background:rgba(143,116,255,.16);color:#b9a8ff;font-size:32px}
+.maintenance-panel h1{margin:14px 0;font-size:clamp(32px,6vw,48px);line-height:1.1;color:#fff}
+.maintenance-panel p{max-width:460px;margin:0 auto;color:#b9bdd5;line-height:1.75}
+.maintenance-caption{display:inline-flex;align-items:center;gap:9px;margin-top:28px;color:#a9a4d4;font-size:11px;font-weight:800;letter-spacing:.12em}
+.maintenance-caption i,.live-indicator.maintenance i{width:7px;height:7px;border-radius:50%;background:#f0b35c;box-shadow:0 0 12px rgba(240,179,92,.7)}
+.live-indicator.maintenance{color:#f0b35c}

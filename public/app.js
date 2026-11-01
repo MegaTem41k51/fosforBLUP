@@ -11,7 +11,8 @@ let blockedNotified=false;
 async function api(url, options={}) { const r=await fetch(url,{...options,headers:{...(options.body?{'Content-Type':'application/json'}:{}),...(options.headers||{})}}); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||'Ошибка запроса'); return d; }
 async function refreshUser(){try{const d=await api('/api/me');if(d.nickname){userChip.classList.remove('hidden');$('#userName').textContent=d.nickname;loginBtn.classList.add('hidden')}else{userChip.classList.add('hidden');loginBtn.classList.remove('hidden')}}catch(e){userChip.classList.add('hidden');loginBtn.classList.remove('hidden');if((e.message||'').includes('заблокирован')&&!blockedNotified){blockedNotified=true;toast(e.message)}}}
 async function refreshConfig(){try{const c=await api('/api/config');const money=n=>Number(n||0).toLocaleString('ru-RU',{maximumFractionDigits:2});$('#reserveAvailable').textContent='$'+money(c.reserveAvailable);$('#reserveTotal').textContent='$'+money(c.reserveTotal);$('#reserveMeter').style.width=(c.reserveTotal>0?Math.min(100,c.reserveAvailable/c.reserveTotal*100):0)+'%';$('#usdtRate').textContent=c.usdtRate>0?money(c.usdtRate)+' ₽':'не задан';$('#gramRate').textContent=c.gramRate>0?money(c.gramRate)+' ₽':'не задан';window.blupBanks=c.banks||[];}catch{}}
-refreshUser();refreshConfig();\nasync function refreshMaintenance(){
+refreshUser();refreshConfig();
+async function refreshMaintenance(){
  try{
   const d=await api('/api/status');
   const screen=$('#maintenanceScreen');
